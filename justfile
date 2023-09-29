@@ -1,5 +1,5 @@
 all: clean-output
-    python generar_credenciales.py credenciales-A6.svg Attendees.csv
+    asistentes
     pdftk /home/jileon/temp/pages/*.pdf cat output ./credenciales-A6-pycones2023.pdf
 
 clean-output:
@@ -12,6 +12,6 @@ clean-input:
 
 
 asistentes:
-    python generar_credenciales.py credenciales-A6.svg participantes.csv
+    python generar_credenciales.py ejemplo-plantilla.svg participantes.csv
 
 
