@@ -1,0 +1,5 @@
+pandas
+jinja2
+qrcode
+tqdm
+prettyconf
