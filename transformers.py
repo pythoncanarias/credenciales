@@ -27,15 +27,17 @@ def get_codigo_menu(menu):
     CELIACO = '©'
 
     return {
-        'Sin restricciones.': OMNI,
-        'Vegetariano': VEG,
-        'Sin restricciones. | Celiaco': CELIACO,
-        'Vegano': VEG,
         'Celiaco': CELIACO,
-        'Vegano. | Vegetariano': VEG,
+        'Sin restricciones. | Celiaco': CELIACO,
         'Sin restricciones. | Vegetariano': VEG,
-        'Vegano. | Especial Celiaco | Vegetariano': CELIACO,
+        'Sin restricciones.': OMNI,
         'Vegano | Vegetariano': VEG,
+        'Vegano': VEG,
+        'Vegano. | Especial Celiaco | Vegetariano': CELIACO,
+        'Vegano. | Vegetariano': VEG,
+        'Vegano | Vegetariano': VEG,
+        'Vegetariano | Celiaco': CELIACO,
+        'Vegetariano': VEG,
     }.get(menu)
 
 
@@ -44,6 +46,7 @@ def get_pronombre(pronombre):
         'él': 'él',
         'ella': 'ella',
         'elle': 'elle',
+        'otro': 'otro',
     }.get(pronombre, '')
 
 
@@ -106,11 +109,6 @@ FIXES = {
     'Verdu': 'Verdú',
 }
 
-def get_nombre(nombre):
-    nombre = nombre.strip()
-    words = [fix(_) for _ in nombre.split()]
-    return ' '.join(words)
-
 
 def fix(texto):
     texto = texto.replace('a\u0301', 'á')
@@ -126,22 +124,28 @@ def fix(texto):
     texto = texto.strip().capitalize()
     return FIXES.get(texto, texto)
 
+
+def get_fixed(nombre):
+    nombre = nombre.strip()
+    words = [fix(_) for _ in nombre.split()]
+    return ' '.join(words)
+
     
-def split_apellidos(apellidos):
-    apellidos = apellidos.strip()
-    if ' ' not in apellidos:
-        return (fix(apellidos), '')
-    space_in = apellidos.index(' ')
-    if space_in < 4:
-        primer_apellido, segundo_apellido = apellidos.rsplit(maxsplit=1)
-    else:
-        primer_apellido, segundo_apellido = apellidos.split(maxsplit=1)
-    return fix(primer_apellido), fix(segundo_apellido)
+# def split_apellidos(apellidos):
+    # apellidos = apellidos.strip()
+    # if ' ' not in apellidos:
+        # return (fix(apellidos), '')
+    # space_in = apellidos.index(' ')
+    # if space_in < 4:
+        # primer_apellido, segundo_apellido = apellidos.rsplit(maxsplit=1)
+    # else:
+        # primer_apellido, segundo_apellido = apellidos.split(maxsplit=1)
+    # return fix(primer_apellido), fix(segundo_apellido)
 
 
-def get_primer_apellido(s):
-    return split_apellidos(s)[0]
+# def get_primer_apellido(s):
+    # return split_apellidos(s)[0]
 
 
-def get_segundo_apellido(s):
-    return split_apellidos(s)[1]
+# def get_segundo_apellido(s):
+    # return split_apellidos(s)[1]

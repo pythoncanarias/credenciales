@@ -46,20 +46,31 @@ def load_template(template_filename):
     return template
 
 
+def load_data(input_file):
+    cleaned = pd.read_csv(input_file)
+    cleaned.fillna('', inplace=True)
+    return cleaned
+
+
 def make_batch(template, input_file, **kwargs):
     output_dir = kwargs.get('output_dir', './pages')
     debug = kwargs.get('debug', False)
     template = load_template(template)
-    cleaned = pd.read_csv(input_file)
+    cleaned = load_data(input_file)
     print(f'Voy que preparar {cleaned.shape[0]} credenciales')
-    if debug:
-        cleaned = cleaned.sample(32)
     cleaned = cleaned.sort_values(by=['primer_apellido', 'segundo_apellido'])
     data = [dict(item) for index, item in cleaned.iterrows()]
     print(f'Generando {len(data)} credenciales', end=": ", flush=True)
     for seq, sample in enumerate(tqdm(data), start=1):
         id_asistente = sample['id_asistente']
         sample['warning'] = bool(sample['menu'] != '✱')
+        if sample['menu'] == '✱':
+            sample['color'] = '#FFFFFF'
+        elif sample['menu'] == '▼':
+            sample['color'] = '#A3A3A3'
+        else:
+            sample['color'] = '#D5B59C'
+        sample['debug'] = debug
         svg_filename = output_dir / f'{seq:04}-{id_asistente}.svg'
         pdf_filename = output_dir / f'{seq:04}-{id_asistente}.pdf'
         with open(svg_filename, 'w', encoding='utf-8') as f:
