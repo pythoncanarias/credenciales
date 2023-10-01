@@ -65,7 +65,7 @@ def make_batch(template, input_file, **kwargs):
         id_asistente = sample['id_asistente']
         sample['warning'] = bool(sample['menu'] != '✱')
         if sample['menu'] == '✱':
-            sample['color'] = '#FFFFFF'
+            sample['color'] = '#FFFFAB'
         elif sample['menu'] == '▼':
             sample['color'] = '#A3A3A3'
         else:
